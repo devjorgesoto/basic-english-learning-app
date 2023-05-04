@@ -17,7 +17,7 @@ const getGoals = asyncHandler(async(req, res) => { // Notice : It's a const meth
 //@access Private
 const setGoal = asyncHandler(async(req, res) => {
 
-    const goal = await Goal.create({text: req.body})
+    const goal = await Goal.create({text: req.body.text})
     
     res.status(200).json(goal)
 })
@@ -27,15 +27,19 @@ const setGoal = asyncHandler(async(req, res) => {
 //@access Private
 const updateGoal = asyncHandler(async(req, res) => {
 
-    res.status(200).json({message:`Update goal ${req.params.id}`})
+    const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, {new:true})
+
+    res.status(200).json(updatedGoal)
 })
 
 //@desc Delete goal
 //@route Delete api/goals/:id
 //@access Private
 const deleteGoal = asyncHandler(async(req, res) => {
+
+    const deletedGoal = await Goal.findByIdAndDelete(req.params.id)
     
-    res.status(200).json({message:`Delete goal ${req.params.id}`})
+    res.status(200).json(deletedGoal)
 }
 )
 module.exports = {getGoals,setGoal,updateGoal,deleteGoal}
