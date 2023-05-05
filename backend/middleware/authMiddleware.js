@@ -9,7 +9,6 @@ const protect = asyncHandler (async(req, res, next)=>{
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
 
         try {
-            
             //get token from header
             token = req.headers.authorization.split(' ')[1]
 
@@ -20,20 +19,18 @@ const protect = asyncHandler (async(req, res, next)=>{
             req.user = await User.findById(decoded.id).select('-password')
 
             next()
+        
+            } catch (error) {
 
-        } catch (error) {
             console.log(error)
             res.status(401)
-            throw new Error ('Not authorized')
-        }
-
+            throw new Error ('Not authorized')}
     }
 
     if (!token){
 
         res.status(401)
-        throw new Error('No authorized No token')
-    }
+        throw new Error('No authorized No token')}
 
 })
 

@@ -85,10 +85,16 @@ const registerUser = asyncHandler (async(req,res)=>{
 
 //@desc   Get user data
 //@route  Get api/users/me
-//@access Public
+//@access Private
 const getMe = asyncHandler (async(req,res)=>{
 
-    res.json ({message: 'User display'})
+    const {id, name, email} = await User.findById(req.user.id)
+
+    res.status(200).json({
+
+        id,
+        name,
+        email})
 })
 
 // generate jwt token
